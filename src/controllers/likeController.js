@@ -31,6 +31,38 @@ const createLike = async (req, res) => {
   }
 };
 
+const unlikeFunc = async (req, res) => {
+  try {
+    const { post, like } = req.body;
+
+    const unlikeData = await Like.findOneAndDelete({
+      post: post,
+      _id: like,
+    });
+
+    const updatedPost = await Post.findByIdAndUpdate(
+      post,
+      { $pull: { likes: unlikeData._id } },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "successfully deleted like from post",
+      err: {},
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "not able to deleted like",
+      err: { error },
+    });
+  }
+};
+
 module.exports = {
   createLike,
+  unlikeFunc,  
 };

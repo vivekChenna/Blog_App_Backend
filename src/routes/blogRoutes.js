@@ -6,12 +6,13 @@ const {
   getAllPosts,
 } = require("../controllers/postController");
 const { createComment } = require("../controllers/commentController");
-const { createLike } = require("../controllers/likeController");
+const { createLike, unlikeFunc } = require("../controllers/likeController");
 
 router.post("/createpost", createPost);
 router.post("/createcomment", createComment);
 router.get("/post/:id", getPostById);
 router.get("/posts", getAllPosts);
-router.post("/like", createLike);
+router.post("/likes/like", createLike);
+router.post("/likes/unlike", unlikeFunc);
 
 module.exports = router;
